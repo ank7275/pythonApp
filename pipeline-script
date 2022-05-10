@@ -1,0 +1,38 @@
+pipeline {
+	agent any
+
+	stages {
+		stage('Build') {
+			steps {
+				git branch: 'main',
+					credentialsId: '63159925-2bd9-41bf-be61-7480abf24a5b',
+					url: 'https://github.com/ank7275/pythonApp.git'
+			}
+		}
+		
+	stage('SSH transfer') {
+		steps {
+			script {
+				sshPublisher(
+					continueOnError: false, failOnError: true,
+					publishers: [
+						sshPublisherDesc(
+							configName: "web_server",
+							verbose: true,
+							/*transfers: [
+							    sshTransfer(
+                                     execCommand: "sh /home/ec2-user/test/gitRepo/test1.sh"
+                                ),*/
+								sshTransfer(
+									sourceFiles: "**/*.py",
+									removePrefix: "",
+									remoteDirectory: "//home//ec2-user//test//gitRepo//pythonApp",
+									execCommand: "sh /home/ec2-user/test/gitRepo/test.sh"
+								)
+							])
+					])
+			}
+		}
+	}
+	}
+}
