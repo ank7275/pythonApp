@@ -1,5 +1,5 @@
 from flask import Flask
-import os  
+from flask import request
 # Flask constructor takes the name of 
 # current module (__name__) as argument.
 app = Flask(__name__)
@@ -13,16 +13,17 @@ exiting = False
 def hello_world():
     return 'Hello this is the flask app automation build and deploy #4'
 
-@app.route("/exit")
-def exit_app():
-    global exiting
-    exiting = True
-    return "Done"
 
-@app.teardown_request
-def teardown(exception):
-    if exiting:
-        os._exit(0)  
+def shutdown_server():
+    func = request.environ.get('werkzeug.server.shutdown')
+    if func is None:
+        raise RuntimeError('Not running with the Werkzeug Server')
+    func()
+    
+@app.get('/shutdown')
+def shutdown():
+    shutdown_server()
+    return 'Server shutting down...'
   
 # main driver function
 if __name__ == '__main__':
