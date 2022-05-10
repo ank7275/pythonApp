@@ -19,8 +19,8 @@ pipeline {
 						sshPublisherDesc(
 							configName: "web_server",
 							verbose: true,
-							/*transfers: [
-							    sshTransfer(
+							transfers: [
+							    /*sshTransfer(
                                      execCommand: "sh /home/ec2-user/test/gitRepo/test1.sh"
                                 ),*/
 								sshTransfer(
