@@ -13,7 +13,7 @@ exiting = False
 def hello_world():
     return 'Hello this is the flask app automation build and deploy #4'
 
-
+'''
 def shutdown_server():
     func = request.environ.get('werkzeug.server.shutdown')
     if func is None:
@@ -24,7 +24,7 @@ def shutdown_server():
 def shutdown():
     shutdown_server()
     return 'Server shutting down...'
-  
+'''  
 # main driver function
 if __name__ == '__main__':
   
