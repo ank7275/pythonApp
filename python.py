@@ -1,8 +1,9 @@
 from flask import Flask
-  
+import os  
 # Flask constructor takes the name of 
 # current module (__name__) as argument.
 app = Flask(__name__)
+exiting = False
   
 # The route() function of the Flask class is a decorator, 
 # which tells the application which URL should call 
@@ -11,6 +12,17 @@ app = Flask(__name__)
 # URL is bound with hello_world() function.
 def hello_world():
     return 'Hello this is the flask app automation build and deploy #4'
+
+@app.route("/exit")
+def exit_app():
+    global exiting
+    exiting = True
+    return "Done"
+
+@app.teardown_request
+def teardown(exception):
+    if exiting:
+        os._exit(0)  
   
 # main driver function
 if __name__ == '__main__':
